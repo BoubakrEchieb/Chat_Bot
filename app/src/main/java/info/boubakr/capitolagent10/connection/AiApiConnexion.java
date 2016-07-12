@@ -1,7 +1,9 @@
-package info.boubakr.capitolagent10.api.connection;
+package info.boubakr.capitolagent10.connection;
 
+import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -16,6 +18,7 @@ import ai.api.GsonFactory;
 import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import info.boubakr.capitolagent10.MainActivity;
+import info.boubakr.capitolagent10.commands.CallCommand;
 
 /**
  * Created by aboubakr on 28/06/16.
@@ -29,19 +32,22 @@ public class AiApiConnexion implements AIListener {
     private AIService aiService;
     private Gson gson;
 
-    private String responseSpeech;
+    private String responseSpeech; // whay agent say
     private String source;
-    private String resolvedQuery;
-    private String sessionId;
+    private String resolvedQuery; ////what user say
+    private String sessionId; //
 
-    private TextView speech;
+    private TextView whatAgentSayTextView;
+    private TextView whatUserSayTextView;
+
     private TextToSpeech textToSpeech;
 
     //Constructeur
-    public AiApiConnexion(MainActivity context, TextView speech,TextToSpeech textToSpeech){
+    public AiApiConnexion(MainActivity context, TextView whatAgentSayTextView,TextView whatUserSayTextView,TextToSpeech textToSpeech){
 
         this.context = context;
-        this.speech = speech;
+        this.whatAgentSayTextView = whatAgentSayTextView;
+        this.whatUserSayTextView = whatUserSayTextView;
         this.textToSpeech = textToSpeech;
 
         gson = GsonFactory.getGson();
@@ -77,8 +83,21 @@ public class AiApiConnexion implements AIListener {
                     resolvedQuery = response.getResult().getResolvedQuery();
                     source = response.getResult().getSource();
                     sessionId = response.getId();
-                    speech.setText(responseSpeech);
+                    //user
+                    whatUserSayTextView.setText(resolvedQuery);
+                    whatUserSayTextView.setVisibility(View.VISIBLE);
+                   /* if(resolvedQuery.contains("call")){
+                        String contactName = "";
+                       // CallCommand.getInstence().makeCull(contactName);
+                    }*/
+                    //agent
+                    whatAgentSayTextView.setText(responseSpeech);
+                    whatAgentSayTextView.setVisibility(View.VISIBLE);
+
+
+
                     textToSpeech.speak(responseSpeech, TextToSpeech.QUEUE_FLUSH, null);
+                    refrechParams();
                 }
                 //
                 if (response.getResult().getParameters() != null && !response.getResult().getParameters().isEmpty()) {
@@ -95,14 +114,13 @@ public class AiApiConnexion implements AIListener {
     }
 
     @Override
-    public void onError(AIError error) { //process error
-        context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "onError");
-                //aiTextView.setText(error.toString());
-            }
-        });
+    public void onError(AIError error) { //process error if an error appear
+
+        //agent
+        whatAgentSayTextView.setText(ERROR_MESSAGE);
+        whatAgentSayTextView.setVisibility(View.VISIBLE);
+        textToSpeech.speak(ERROR_MESSAGE, TextToSpeech.QUEUE_FLUSH, null);
+        refrechParams();
     }
 
     @Override
@@ -156,5 +174,9 @@ public class AiApiConnexion implements AIListener {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+    private void refrechParams(){
+        responseSpeech = ""; // whay agent say
+        resolvedQuery = ""; ////what user say
     }
 }
