@@ -53,6 +53,7 @@ public class EmotionDetector  implements CameraDetector.CameraEventListener,Dete
     }
 
     public void startDetection(){
+        //Lancer la detection et tester sur chaque émotion detecté.
         main.runOnUiThread(new Runnable() {
             @Override
             public void run() {

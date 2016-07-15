@@ -1,6 +1,6 @@
 package info.boubakr.capitolagent10.connection;
 
-import android.content.Intent;
+
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +18,7 @@ import ai.api.GsonFactory;
 import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import info.boubakr.capitolagent10.MainActivity;
-import info.boubakr.capitolagent10.commands.CallCommand;
+
 
 /**
  * Created by aboubakr on 28/06/16.
@@ -43,7 +43,10 @@ public class AiApiConnexion implements AIListener {
     private TextToSpeech textToSpeech;
 
     //Constructeur
-    public AiApiConnexion(MainActivity context, TextView whatAgentSayTextView,TextView whatUserSayTextView,TextToSpeech textToSpeech){
+    public AiApiConnexion(MainActivity context,
+                          TextView whatAgentSayTextView,
+                          TextView whatUserSayTextView,
+                          TextToSpeech textToSpeech){
 
         this.context = context;
         this.whatAgentSayTextView = whatAgentSayTextView;
@@ -142,6 +145,12 @@ public class AiApiConnexion implements AIListener {
     public void onListeningFinished() {
 
     }// indicate stop listening here
+
+
+
+
+
+
 
     //GETTERS & SETTERS
     public String getResponseSpeech() {

@@ -59,6 +59,13 @@
             android:id="@+id/button_listen"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:id="@+id/user_emotions"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 </RelativeLayout>

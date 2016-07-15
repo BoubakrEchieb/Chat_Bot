@@ -7,15 +7,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.gson.JsonElement;
-
 import java.util.Locale;
-import java.util.Map;
 
-import ai.api.AIListener;
-import ai.api.model.AIError;
-import ai.api.model.AIResponse;
-import ai.api.model.Result;
 import info.boubakr.capitolagent10.connection.AiApiConnexion;
 
 public class MainActivity extends AppCompatActivity implements
